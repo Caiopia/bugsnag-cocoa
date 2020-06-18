@@ -24,6 +24,35 @@ import Bugsnag
 class ViewController: UITableViewController {
 
     @IBAction func generateUncaughtException(_ sender: AnyObject) {
+        
+        
+        let onSendErrorBlock1: BugsnagOnSendErrorBlock = { (event) -> Bool in
+            NSLog("Bugsnag: Callback 1")
+            event.addMetadata(["Dog" : "Lilly"],
+                              section: "ConfiguredMetadata")
+            return true
+        }
+        let onSendErrorBlock2: BugsnagOnSendErrorBlock = { (event) -> Bool in
+            NSLog("Bugsnag: Callback 2")
+            event.addMetadata(["Dog" : "Rufey"],
+                              section: "ConfiguredMetadata")
+            return true
+        }
+        let onSendErrorBlock3: BugsnagOnSendErrorBlock = { (event) -> Bool in
+            NSLog("Bugsnag: Callback 3")
+            event.addMetadata(["Dog" : "Basil"],
+                              section: "ConfiguredMetadata")
+            return true
+        }
+
+        NSLog("Bugsnag: Adding callback 1")
+        Bugsnag.addOnSendError(block: onSendErrorBlock1)
+        NSLog("Bugsnag: Adding callback 1")
+        Bugsnag.addOnSendError(block: onSendErrorBlock2)
+        NSLog("Bugsnag: Adding callback 1")
+        Bugsnag.addOnSendError(block: onSendErrorBlock3)
+        
+        NSLog("Bugsnag: About to crash!")
         let someJson : Dictionary = ["foo":self]
         do {
             let data = try JSONSerialization.data(withJSONObject: someJson, options: .prettyPrinted)
@@ -57,6 +86,28 @@ class ViewController: UITableViewController {
 
     @IBAction func sendAnError(_ sender: Any) {
 
+        let onSendErrorBlock1: BugsnagOnSendErrorBlock = { (event) -> Bool in
+            NSLog("Bugsnag: Callback 1")
+            event.addMetadata(["Dog" : "Lilly"],
+                              section: "ConfiguredMetadata")
+            return true
+        }
+        let onSendErrorBlock2: BugsnagOnSendErrorBlock = { (event) -> Bool in
+            NSLog("Bugsnag: Callback 2")
+            event.addMetadata(["Dog" : "Rufey"],
+                              section: "ConfiguredMetadata")
+            return true
+        }
+        let onSendErrorBlock3: BugsnagOnSendErrorBlock = { (event) -> Bool in
+            NSLog("Bugsnag: Callback 3")
+            event.addMetadata(["Dog" : "Basil"],
+                              section: "ConfiguredMetadata")
+            return true
+        }
+
+        Bugsnag.addOnSendError(block: onSendErrorBlock1)
+        Bugsnag.addOnSendError(block: onSendErrorBlock2)
+        Bugsnag.addOnSendError(block: onSendErrorBlock3)
 
         do {
             try FileManager.default.removeItem(atPath:"//invalid/file")
